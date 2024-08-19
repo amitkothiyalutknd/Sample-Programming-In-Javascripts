@@ -1,0 +1,32 @@
+#calculatorFrame {
+  margin-top: 20px;
+  margin-left: 560px;
+  width: 350px;
+  height: 630px;
+  border: 2px solid rgb(124, 245, 11);
+  background-color: aqua;
+}
+
+#display {
+  text-align: right;
+  font-size: xx-large;
+  background-color: bisque;
+  width: 90%;
+  height: 50px;
+  margin: 13px;
+}
+
+#buttonFrame {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.button {
+  cursor: pointer;
+  font-size: xx-large;
+  width: 90px;
+  height: 80px;
+  margin: 5px;
+}
