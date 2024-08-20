@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GamePlay</title>
+    <title>RandomChoiceGame</title>
     <style>
+      #display {
+        text-align: right;
+        font-size: xx-large;
+        background-color: bisque;
+        width: 90%;
+        height: 50px;
+        margin: 13px;
+      }
       body {
         text-align: center;
       }
@@ -13,95 +19,65 @@
   <body>
     <h1>You Have To Press Either One Button Among Below</h1>
     <button
-      onclick="console.log('Player Choose Ant.');
-    let Player = 'Ant';
-    let numb = getRandomInt(1,4);
-    // let numb = Math.random() * 3;
-    let comp;
-    if (numb == 1) {
-        comp = 'Ant';
-        console.log('Computer Choose Ant.');
-    } else if (numb == 2) {
-        comp = 'Elephant';
-        console.log('Computer Choose Elephant.');
-    } else {
-        comp = 'AntEater';
-        console.log('Computer Choose AntEater.');
-    }
-    if ((Player === 'Ant' && comp === 'Elephant') || (Player === 'Elephant' && comp === 'AntEater') || (Player === 'AntEater' && comp === 'Ant')) {
-        alert('<h1>Player Won! </h1>');
-        console.log('Player Won!')
-    } else if (Player == comp) {
-        alert('<h2>It\'s a Tie!</h2>');
-        console.log('It\'s a Tie!')
-    } else { 
-        alert('<h3>Computer Won!</h3>');
-        console.log('Computer Won!')
-    }"
+      onclick="computerChoice = computerOption();
+      let playerChoice = 'Ant'; 
+      document.querySelector('#display').value = display(computerChoice, playerChoice);"
     >
-      Ant</button
+    Ant</button
     ><button
-      onclick="console.log('Player Choose Elephant.');
-    let Player = 'Elephant';
-    let numb = getRandomInt(1,4);
-    // let numb = Math.random() * 3;
-    let comp;
-    if (numb == 1) {
-        comp = 'Ant';
-        console.log('Computer Choose Ant.');
-    } else if (numb == 2) {
-        comp = 'Elephant';
-        console.log('Computer Choose Elephant.');
-    } else {
-        comp = 'AntEater';
-        console.log('Computer Choose AntEater.');
-    }
-    if ((Player === 'Ant' && comp === 'Elephant') || (Player === 'Elephant' && comp === 'AntEater') || (Player === 'AntEater' && comp === 'Ant')) {
-        alert('<h1>Player Won! </h1>');
-        console.log('Player Won!')
-    } else if (Player == comp) {
-        alert('<h2>It\'s a Tie!</h2>');
-        console.log('It\'s a Tie!')
-    } else { 
-        alert('<h3>Computer Won!</h3>');
-        console.log('Computer Won!')
-    }"
+    onclick="computerChoice = computerOption();
+    playerChoice = 'Elephant'; 
+    document.querySelector('#display').value = display(computerChoice, playerChoice);"
     >
-      Elephant</button
+    Elephant</button
     ><button
-      onclick="console.log('Player Choose AntEater.');
-    let Player = 'AntEater';
-    let numb = getRandomInt(1,4);
-    // let numb = Math.random() * 3;
-    let comp;
-    if (numb == 1) {
-        comp = 'Ant';
-        console.log('Computer Choose Ant.');
-    } else if (numb == 2) {
-        comp = 'Elephant';
-        console.log('Computer Choose Elephant.');
-    } else {
-        comp = 'AntEater';
-        console.log('Computer Choose AntEater.');
-    }
-    if ((Player === 'Ant' && comp === 'Elephant') || (Player === 'Elephant' && comp === 'AntEater') || (Player === 'AntEater' && comp === 'Ant')) {
-        alert('<h1>Player Won! </h1>');
-        console.log('Player Won!')
-    } else if (Player == comp) {
-        alert('<h2>It\'s a Tie!</h2>');
-        console.log('It\'s a Tie!')
-    } else { 
-        alert('<h3>Computer Won!</h3>');
-        console.log('Computer Won!')
-    }"
+    onclick="computerChoice = computerOption();
+    playerChoice = 'AntEater'; 
+    document.querySelector('#display').value = display(computerChoice, playerChoice);"
     >
       AntEater
     </button>
+    <div id="calculatorFrame">
+      <input type="text" id="display" placeholder="Give Input Here"/>
+      <div id="buttonFrame">
     <script>
-      function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min;
+      function computerOption() {
+        let choices = ["Ant", "Elephant", "AntEater"];
+        let randomChoice = choices[Math.floor(Math.random() * choices.length)];
+        return randomChoice;
+      }
+      function result(computerChoice, playerChoice) {
+        if (
+          (playerChoice === "Ant" && computerChoice === "Elephant") ||
+          (playerChoice === "Elephant" && computerChoice === "AntEater") ||
+          (playerChoice === "AntEater" && computerChoice === "Ant")
+        ) {
+          alert("<h1>Player Won! </h1>");
+          console.log(
+            `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. Player Won!`
+          );
+          console.log("Player Won!");
+          return `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. Player Won!`;
+        } else if (playerChoice == computerChoice) {
+          alert("<h2>It's a Tie!</h2>");
+          console.log(
+            `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. It's a Tie.`
+          );
+          console.log("It's a Tie!");
+          return `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. It's a Tie.`;
+        } else {
+          alert("<h3>Computer Won!</h3>");
+          console.log(
+            `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. Computer Won!.`
+          );
+          console.log("Computer Won!");
+          return `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. Computer Won!`;
+        }
+      }
+      function display(computerChoice, playerChoice) {
+        let currentDisplay = result(computerChoice, playerChoice);
+        document.querySelector('#display').value = currentDisplay;
+        return currentDisplay;        
       }
     </script>
   </body>
