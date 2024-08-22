@@ -11,6 +11,14 @@
         height: 50px;
         margin: 13px;
       }
+
+      #showScore {        text-align: right;
+        font-size: xx-large;
+        background-color: bisque;
+        width: 90%;
+        height: 150px;
+        margin: 13px;
+      }
       body {
         text-align: center;
       }
@@ -20,27 +28,67 @@
     <h1>You Have To Press Either One Button Among Below</h1>
     <button
       onclick="computerChoice = computerOption();
-      let playerChoice = 'Ant'; 
-      document.querySelector('#display').value = display(computerChoice, playerChoice);"
-    >
-    Ant</button
-    ><button
-    onclick="computerChoice = computerOption();
+      playerChoice = 'Ant';
+      resMsg = result(computerChoice, playerChoice);
+      scoreBoard(resMsg);
+      show = scoreBoard(resMsg);
+      document.querySelector('#display').value = resMsg;
+      document.querySelector('#showScore').value = show;
+      "
+      >
+      Ant</button
+      ><button
+      onclick="computerChoice = computerOption();
     playerChoice = 'Elephant'; 
-    document.querySelector('#display').value = display(computerChoice, playerChoice);"
+    resMsg = result(computerChoice, playerChoice);
+    scoreBoard(resMsg);
+    show = scoreBoard(resMsg);
+    document.querySelector('#display').value = resMsg;
+    document.querySelector('#showScore').value = show;"
     >
     Elephant</button
     ><button
     onclick="computerChoice = computerOption();
     playerChoice = 'AntEater'; 
-    document.querySelector('#display').value = display(computerChoice, playerChoice);"
+    resMsg = result(computerChoice, playerChoice);
+    scoreBoard(resMsg);
+    show = scoreBoard(resMsg);
+    document.querySelector('#display').value = resMsg;
+    document.querySelector('#showScore').value = show;"
     >
       AntEater
     </button>
+    <button onclick="localStorage.clear();reset();textReset();">Reset</button>
     <div id="calculatorFrame">
       <input type="text" id="display" placeholder="Give Input Here"/>
+      <input type="text" id="showScore" placeholder="Score"/>
       <div id="buttonFrame">
     <script>
+      let scoreStr = localStorage.getItem("score");
+      let score;
+      reset(scoreStr);
+
+      function textReset() {
+        document.querySelector("#display").value = "";
+        document.querySelector("#showScore").value = "";
+      }
+
+      function reset(scoreStr) {
+        score = scoreStr
+          ? JSON.parse(scoreStr)
+          : {
+              Player: 0,
+              Computer: 0,
+              Draw: 0,
+            };
+        score.displayScore = function () {
+          return `Player Score: ${this.Player}, Computer Score: ${this.Computer}, Draw: ${this.Draw}`;
+        };
+      }
+
+      let playerChoice;
+      let computerChoice;
+      
       function computerOption() {
         let choices = ["Ant", "Elephant", "AntEater"];
         let randomChoice = choices[Math.floor(Math.random() * choices.length)];
@@ -48,32 +96,32 @@
       }
       function result(computerChoice, playerChoice) {
         if (
-          (playerChoice === "Ant" && computerChoice === "Elephant") ||
-          (playerChoice === "Elephant" && computerChoice === "AntEater") ||
-          (playerChoice === "AntEater" && computerChoice === "Ant")
+          (playerChoice == "Ant" && computerChoice == "Elephant") ||
+          (playerChoice == "Elephant" && computerChoice == "AntEater") ||
+          (playerChoice == "AntEater" && computerChoice == "Ant")
         ) {
-          alert("<h1>Player Won! </h1>");
-          console.log(
-            `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. Player Won!`
-          );
-          console.log("Player Won!");
-          return `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. Player Won!`;
+          score.Player++;
+          return "Player Won This Round.";
         } else if (playerChoice == computerChoice) {
-          alert("<h2>It's a Tie!</h2>");
-          console.log(
-            `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. It's a Tie.`
-          );
-          console.log("It's a Tie!");
-          return `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. It's a Tie.`;
+          score.Draw++;
+          return "This Round Is Draw Between Player And Computer.";
         } else {
-          alert("<h3>Computer Won!</h3>");
-          console.log(
-            `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. Computer Won!.`
-          );
-          console.log("Computer Won!");
-          return `Player Choose ${playerChoice} and Computer Choose ${computerChoice}. Computer Won!`;
+          score.Computer++;
+          return "Computer Won This Round.";
         }
       }
+      function scoreBoard(resMsg) {
+        localStorage.setItem("Score", JSON.stringify(score));
+        alert(
+          `Player Choice: ${playerChoice} and Computer Choice: ${computerChoice}.
+
+            ${resMsg}
+
+            ${score.displayScore()}`
+        );
+        return score.displayScore();
+      }
+
       function display(computerChoice, playerChoice) {
         let currentDisplay = result(computerChoice, playerChoice);
         document.querySelector('#display').value = currentDisplay;
