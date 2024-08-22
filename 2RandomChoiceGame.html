@@ -1,79 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>RandomChoiceGame</title>
-    <style>
-      #display {
-        text-align: right;
-        font-size: xx-large;
-        background-color: bisque;
-        width: 90%;
-        height: 50px;
-        margin: 13px;
-      }
-
-      #showScore {        text-align: right;
-        font-size: xx-large;
-        background-color: bisque;
-        width: 90%;
-        height: 150px;
-        margin: 13px;
-      }
+    <title>2RandomChoiceGame</title>
+    <link rel="stylesheet" href="2RandomChoiceGame.css" />
+    <!-- <style>
       body {
         text-align: center;
       }
-    </style>
+    </style> -->
   </head>
   <body>
     <h1>You Have To Press Either One Button Among Below</h1>
     <button
-      onclick="computerChoice = computerOption();
-      playerChoice = 'Ant';
+      onclick="playerChoice = 'Ant';
+      computerChoice = computerOption();
       resMsg = result(computerChoice, playerChoice);
-      scoreBoard(resMsg);
-      show = scoreBoard(resMsg);
-      document.querySelector('#display').value = resMsg;
-      document.querySelector('#showScore').value = show;
-      "
-      >
-      Ant</button
-      ><button
-      onclick="computerChoice = computerOption();
-    playerChoice = 'Elephant'; 
-    resMsg = result(computerChoice, playerChoice);
-    scoreBoard(resMsg);
-    show = scoreBoard(resMsg);
-    document.querySelector('#display').value = resMsg;
-    document.querySelector('#showScore').value = show;"
+      scoreBoard(resMsg);"
+      class="button"
+      ;
     >
-    Elephant</button
+      <img src="ant.png" alt="Ant" class="images" /></button
     ><button
-    onclick="computerChoice = computerOption();
-    playerChoice = 'AntEater'; 
-    resMsg = result(computerChoice, playerChoice);
-    scoreBoard(resMsg);
-    show = scoreBoard(resMsg);
-    document.querySelector('#display').value = resMsg;
-    document.querySelector('#showScore').value = show;"
+      onclick="playerChoice = 'Elephant'; 
+      computerChoice = computerOption();
+      resMsg = result(computerChoice, playerChoice);
+      scoreBoard(resMsg);"
+      class="button"
     >
-      AntEater
+      <img src="elephant.png" alt="Elephant" class="images" />
     </button>
-    <button onclick="localStorage.clear();reset();textReset();">Reset</button>
-    <div id="calculatorFrame">
-      <input type="text" id="display" placeholder="Give Input Here"/>
-      <input type="text" id="showScore" placeholder="Score"/>
-      <div id="buttonFrame">
+    <button
+      onclick="playerChoice = 'AntEater'; 
+      computerChoice = computerOption();
+      resMsg = result(computerChoice, playerChoice);
+      scoreBoard(resMsg);"
+      class="button"
+    >
+      <img src="anteater.png" alt="AntEater" class="images" />
+    </button>
+    <h2 id="Player"></h2>
+    <h2 id="Computer"></h2>
+    <h2 id="Result"></h2>
+    <h2 id="Score"></h2>
+    <button onclick="localStorage.clear();reset();">Reset</button>
     <script>
       let scoreStr = localStorage.getItem("score");
       let score;
       reset(scoreStr);
 
-      function textReset() {
-        document.querySelector("#display").value = "";
-        document.querySelector("#showScore").value = "";
-      }
-
       function reset(scoreStr) {
+        document.querySelector("#Player").innerText = "";
+        document.querySelector("#Computer").innerText = "";
+        document.querySelector("#Result").innerText = "";
+        document.querySelector("#Score").innerText = "";
         score = scoreStr
           ? JSON.parse(scoreStr)
           : {
@@ -85,10 +64,9 @@
           return `Player Score: ${this.Player}, Computer Score: ${this.Computer}, Draw: ${this.Draw}`;
         };
       }
-
       let playerChoice;
       let computerChoice;
-      
+
       function computerOption() {
         let choices = ["Ant", "Elephant", "AntEater"];
         let randomChoice = choices[Math.floor(Math.random() * choices.length)];
@@ -112,6 +90,17 @@
       }
       function scoreBoard(resMsg) {
         localStorage.setItem("Score", JSON.stringify(score));
+        document.querySelector("#Player").innerText =
+          playerChoice !== undefined ? `User Choice Is: ${playerChoice}` : "";
+        document.querySelector("#Computer").innerText =
+          computerChoice !== undefined
+            ? `Computer Choice Is: ${computerChoice}`
+            : "";
+        document.querySelector("#Result").innerText =
+          resMsg !== undefined ? `${resMsg}` : "";
+        document.querySelector(
+          "#Score"
+        ).innerText = `Score: ${score.displayScore()}`;
         alert(
           `Player Choice: ${playerChoice} and Computer Choice: ${computerChoice}.
 
@@ -119,13 +108,6 @@
 
             ${score.displayScore()}`
         );
-        return score.displayScore();
-      }
-
-      function display(computerChoice, playerChoice) {
-        let currentDisplay = result(computerChoice, playerChoice);
-        document.querySelector('#display').value = currentDisplay;
-        return currentDisplay;        
       }
     </script>
   </body>
