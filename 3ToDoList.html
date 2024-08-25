@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ToDoList</title>
+    <link rel="stylesheet" href="ToDoList.css" />
+  </head>
+  <body>
+    <h1><b>To Do List</b></h1>
+    <div id="header">
+      <input type="text" id="taskInput" placeholder="Enter a task" />
+      <input type="date" id="date" placeholder="" />
+      <button onclick="addTask()" id="addButton">Add Task</button>
+    </div>
+    <div class="content"></div>
+    <script>
+      let taskList = [];
+      const sytDate = new Date().toISOString().split("T")[0];
+      function addTask() {
+        let task = document.getElementById("taskInput").value || "";
+        let dateValue = document.getElementById("date").value;
+        if (task == "") {
+          alert(`You didn't Mentioned Your Task.`);
+          return;
+        } else if (dateValue < sytDate) {
+          alert(
+            `Either Date Field Is Empty Or Date Selected From Pasts ${dateValue}`
+          );
+          return;
+        } else {
+          let toDo;
+          let doDate;
+          taskList.push({ toDo: task, doDate: dateValue });
+          document.getElementById("taskInput").value = "";
+          document.getElementById("date").value = "";
+          displayTasks();
+        }
+      }
+      function displayTasks() {
+        let content = document.querySelector(".content");
+        let task = "";
+        for (let i = 0; i < taskList.length; i++) {
+          task += `<div><span><li>${taskList[i].toDo}</li></span></div><div><span><li>${taskList[i].doDate}</li></span></div><div><span><button onclick="taskList.splice(${i}, 1);displayTasks();" class="Delete">Delete</Delete></span></div>`;
+        }
+        content.innerHTML = task;
+      }
+    </script>
+  </body>
+</html>
